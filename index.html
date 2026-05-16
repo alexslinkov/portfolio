@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Слиньков Александр | Портфолио — РЦК Санкт-Петербурга</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"></noscript>
+</head>
+<body>
+
+    <!-- Header / Навигация -->
+    <header class="header" id="header">
+        <div class="container">
+            <nav class="nav">
+                <a href="#" class="logo">
+                    <span class="logo-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                        </svg>
+                    </span>
+                    <span class="logo-text">А. Слиньков</span>
+                </a>
+                <ul class="nav-list" id="navList">
+                    <li><a href="#about" class="nav-link">Обо мне</a></li>
+                    <li><a href="#experience" class="nav-link">Опыт</a></li>
+                    <li><a href="#projects" class="nav-link">Проекты</a></li>
+                    <li><a href="#skills" class="nav-link">Навыки</a></li>
+                    <li><a href="#contact" class="nav-link">Контакты</a></li>
+                </ul>
+                <button class="burger" id="burger" aria-label="Меню">
+                    <span></span><span></span><span></span>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero" id="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <p class="hero-label">Региональный центр компетенций Санкт-Петербурга</p>
+                    <h1 class="hero-title">
+                        <span class="hero-name" id="heroName">Слиньков Александр Сергеевич</span>
+                        <span class="hero-role">Руководитель проектов</span>
+                    </h1>
+                    <p class="hero-desc" id="heroDesc">
+                        Помогаю компаниям повышать производительность труда, внедрять бережливое производство 
+                        и достигать стратегических целей в рамках национального проекта 
+                        <strong>«Производительность труда»</strong>
+                    </p>
+                    <div class="hero-stats">
+                        <div class="hero-stat">
+                            <span class="hero-stat-value">5+</span>
+                            <span class="hero-stat-label">лет опыта</span>
+                        </div>
+                        <div class="hero-stat">
+                            <span class="hero-stat-value">15+</span>
+                            <span class="hero-stat-label">реализованных проектов</span>
+                        </div>
+                        <div class="hero-stat">
+                            <span class="hero-stat-value">50+</span>
+                            <span class="hero-stat-label">обученных сотрудников</span>
+                        </div>
+                    </div>
+                    <div class="hero-btns">
+                        <a href="#projects" class="btn btn-primary">
+                            <i class="fas fa-folder-open"></i> Проекты
+                        </a>
+                        <a href="#contact" class="btn btn-outline">
+                            <i class="fas fa-envelope"></i> Связаться
+                        </a>
+                    </div>
+                </div>
+                <div class="hero-photo">
+                    <div class="photo-frame" id="photoFrame">
+                        <div class="photo-placeholder">
+                            <i class="fas fa-user-circle"></i>
+                        </div>
+                    </div>
+                    <div class="hero-brands">
+                        <img src="img/rck-logo.svg" alt="РЦК" class="brand-logo" onerror="this.style.display='none'">
+                        <span class="hero-badge">Национальный проект «Производительность труда»</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="hero-shapes">
+            <div class="hero-shape hero-shape-1"></div>
+            <div class="hero-shape hero-shape-2"></div>
+            <div class="hero-shape hero-shape-3"></div>
+        </div>
+    </section>
+
+    <!-- About -->
+    <section class="section about" id="about">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Обо мне</span>
+                <h2 class="section-title">Кто я и чем занимаюсь</h2>
+                <div class="section-divider"></div>
+            </div>
+            <div class="about-grid">
+                <div class="about-card">
+                    <div class="about-icon"><i class="fas fa-bullseye"></i></div>
+                    <h3>Миссия</h3>
+                    <p id="aboutMission">Помогать промышленным предприятиям Санкт-Петербурга раскрывать потенциал через внедрение инструментов бережливого производства и повышение операционной эффективности.</p>
+                </div>
+                <div class="about-card">
+                    <div class="about-icon"><i class="fas fa-graduation-cap"></i></div>
+                    <h3>Образование</h3>
+                    <p id="aboutEducation">Санкт-Петербургский государственный университет, факультет экономики и управления. Дополнительное образование: Lean-технологии, управление проектами.</p>
+                </div>
+                <div class="about-card">
+                    <div class="about-icon"><i class="fas fa-clock"></i></div>
+                    <h3>Опыт работы</h3>
+                    <p id="aboutExperience">Более 5 лет в сфере повышения производительности труда и бережливого производства. Начинал с позиции инженера по качеству, прошёл путь до руководителя проектов в РЦК Санкт-Петербурга.</p>
+                </div>
+                <div class="about-card">
+                    <div class="about-icon"><i class="fas fa-handshake"></i></div>
+                    <h3>Ключевой подход</h3>
+                    <p id="aboutApproach">Сочетание системного анализа, Lean-инструментов и вовлечения команды для достижения измеримых результатов.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience -->
+    <section class="section experience" id="experience">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Опыт</span>
+                <h2 class="section-title">Мой профессиональный путь</h2>
+                <div class="section-divider"></div>
+            </div>
+            <div class="timeline" id="timeline"></div>
+        </div>
+    </section>
+
+    <!-- Projects -->
+    <section class="section projects" id="projects">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Проекты</span>
+                <h2 class="section-title">Реализованные проекты</h2>
+                <p class="section-subtitle">Результаты внедрения инструментов бережливого производства на предприятиях Санкт-Петербурга</p>
+                <div class="section-divider"></div>
+            </div>
+            <div class="projects-grid" id="projectsGrid"></div>
+        </div>
+    </section>
+
+    <!-- Skills -->
+    <section class="section skills" id="skills">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Навыки</span>
+                <h2 class="section-title">Компетенции и инструменты</h2>
+                <div class="section-divider"></div>
+            </div>
+            <div class="skills-content">
+                <div class="skills-row">
+                    <div class="skills-category">
+                        <h3><i class="fas fa-tools"></i> Инструменты Lean</h3>
+                        <div class="skills-tags" id="skillsLean"></div>
+                    </div>
+                    <div class="skills-category">
+                        <h3><i class="fas fa-laptop-code"></i> Программное обеспечение</h3>
+                        <div class="skills-tags" id="skillsSoftware"></div>
+                    </div>
+                </div>
+                <div class="skills-category skills-category-full">
+                    <h3><i class="fas fa-star"></i> Личные качества</h3>
+                    <div class="skills-tags" id="skillsPersonal"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact -->
+    <section class="section contact" id="contact">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Контакты</span>
+                <h2 class="section-title">Свяжитесь со мной</h2>
+                <p class="section-subtitle">Буду рад обсудить возможности сотрудничества</p>
+                <div class="section-divider"></div>
+            </div>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+                        <div>
+                            <h4>Email</h4>
+                            <a href="#" id="contactEmail" data-contact="email">[email]</a>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon"><i class="fas fa-phone"></i></div>
+                        <div>
+                            <h4>Телефон</h4>
+                            <a href="#" id="contactPhone" data-contact="phone">[телефон]</a>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon"><i class="fab fa-telegram"></i></div>
+                        <div>
+                            <h4>Telegram</h4>
+                            <a href="#" id="contactTelegram" data-contact="telegram">[@username]</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-cta">
+                    <div class="cta-card">
+                        <i class="fas fa-calendar-check"></i>
+                        <h3>Готов к сотрудничеству</h3>
+                        <p>Открыт к предложениям по реализации проектов повышения производительности труда на предприятиях Санкт-Петербурга</p>
+                        <a href="mailto:alexslinkov@mail.ru" class="btn btn-primary">
+                            <i class="fas fa-paper-plane"></i> Написать мне
+                        </a>
+                        <a href="#" id="downloadPdfBtn" class="btn btn-outline" style="margin-top: 12px;">
+                            <i class="fas fa-file-pdf"></i> Скачать портфолио (PDF)
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-top">
+                <div class="footer-brand">
+                    <span class="footer-logo">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                        </svg>
+                    </span>
+                    <span>Слиньков Александр</span>
+                </div>
+                <div class="footer-links">
+                    <a href="#about">Обо мне</a>
+                    <a href="#experience">Опыт</a>
+                    <a href="#projects">Проекты</a>
+                    <a href="#skills">Навыки</a>
+                    <a href="#contact">Контакты</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; <span id="year"></span> Слиньков Александр</p>
+                <p class="footer-np">
+                    <i class="fas fa-star"></i> Национальный проект «Производительность труда»
+                </p>
+                <p class="footer-rck">Региональный центр компетенций Санкт-Петербурга — <a href="https://rckspb.ru" target="_blank" rel="noopener">rckspb.ru</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/data.js"></script>
+    <script src="js/script.js"></script>
+</body>
+</html>
