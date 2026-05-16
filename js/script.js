@@ -190,8 +190,15 @@ document.addEventListener('DOMContentLoaded', function() {
         var d = siteData;
         var pdfBtn = document.getElementById('downloadPdfBtn');
 
+        // Проверка загрузки библиотек
+        if (typeof html2canvas === 'undefined') {
+            alert('Библиотека html2canvas не загружена. Проверьте подключение к интернету.');
+            if (pdfBtn) { pdfBtn.textContent = 'Скачать портфолио (PDF)'; pdfBtn.style.opacity = '1'; pdfBtn.style.pointerEvents = 'auto'; }
+            return;
+        }
+
         var iframe = document.createElement('iframe');
-        iframe.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; border: none; z-index: 999999;';
+        iframe.style.cssText = 'position: fixed; top: 0; left: 0; width: 800px; height: 0; border: none; z-index: 999999; opacity: 0;';
         document.body.appendChild(iframe);
 
         var doc = iframe.contentDocument || iframe.contentWindow.document;
@@ -218,21 +225,25 @@ document.addEventListener('DOMContentLoaded', function() {
         doc.write('.footer { border-top: 1px solid #d1d5db; padding-top: 6px; margin-top: 12px; color: #6b7280; font-size: 8px; }');
         doc.write('@media print { body { -webkit-print-color-adjust: exact; print-color-adjust: exact; } }');
         doc.write('</style></head><body>');
-        doc.write('<div class="header"><h1>' + d.personal.name + '</h1><p>' + d.personal.role + ' | Reg. centr kompetencij Sankt-Peterburga</p></div>');
-        doc.write('<div class="section-title">Kontakty</div>');
+        doc.write('<div class="header"><h1>' + d.personal.name + '</h1><p>' + d.personal.role + ' | Региональный центр компетенций Санкт-Петербурга</p></div>');
+
+        doc.write('<div class="section-title">Контакты</div>');
         doc.write('<div class="text">Email: ' + d.contact.email + '</div>');
         doc.write('<div class="text">Telegram: ' + d.contact.telegram + '</div>');
-        doc.write('<div class="text">Telefon: ' + d.contact.phone + '</div>');
-        doc.write('<div class="section-title">Obo mne</div>');
-        doc.write('<div class="text"><strong>Missija:</strong> ' + d.about.mission + '</div>');
-        doc.write('<div class="text"><strong>Obrazovanie:</strong> ' + d.about.education + '</div>');
-        doc.write('<div class="text"><strong>Opyt raboty:</strong> ' + d.about.experience + '</div>');
-        doc.write('<div class="text"><strong>Podhod:</strong> ' + d.about.approach + '</div>');
-        doc.write('<div class="section-title">Opyt raboty</div>');
+        doc.write('<div class="text">Телефон: ' + d.contact.phone + '</div>');
+
+        doc.write('<div class="section-title">Обо мне</div>');
+        doc.write('<div class="text"><strong>Миссия:</strong> ' + d.about.mission + '</div>');
+        doc.write('<div class="text"><strong>Образование:</strong> ' + d.about.education + '</div>');
+        doc.write('<div class="text"><strong>Опыт работы:</strong> ' + d.about.experience + '</div>');
+        doc.write('<div class="text"><strong>Подход:</strong> ' + d.about.approach + '</div>');
+
+        doc.write('<div class="section-title">Опыт работы</div>');
         d.timeline.forEach(function(item) {
             doc.write('<div class="item"><span class="date-badge">' + item.date + '</span><div style="font-weight: 700; font-size: 11px; margin: 1px 0;">' + item.title + '</div><div class="company">' + item.company + '</div><div class="text">' + item.description + '</div></div>');
         });
-        doc.write('<div class="section-title">Proekty</div>');
+
+        doc.write('<div class="section-title">Проекты</div>');
         d.projects.forEach(function(project) {
             var rh = '';
             project.results.forEach(function(r) {
@@ -242,52 +253,59 @@ document.addEventListener('DOMContentLoaded', function() {
             });
             doc.write('<div class="project-block"><div class="project-company-label">' + project.company + '</div><div style="font-weight: 700; font-size: 11px; margin: 0 0 3px;">' + project.title + '</div><div class="text" style="margin: 0 0 5px;">' + project.description + '</div><div>' + rh + '</div></div>');
         });
-        doc.write('<div class="section-title">Navyki</div>');
-        doc.write('<div class="text"><strong>Instrumenty Lean:</strong> ' + d.skills.lean.join(', ') + '</div>');
-        doc.write('<div class="text" style="margin-top: 5px;"><strong>Programmnoe obespechenie:</strong> ' + d.skills.software.join(', ') + '</div>');
-        doc.write('<div class="text" style="margin-top: 5px;"><strong>Lichnye kachestva:</strong> ' + d.skills.personal.join(', ') + '</div>');
-        doc.write('<div class="footer">Nacionalnyj proekt "Proizvoditelnost truda" - RCK Sankt-Peterburga<br>Data: ' + new Date().toLocaleDateString('ru-RU') + '</div>');
+
+        doc.write('<div class="section-title">Навыки</div>');
+        doc.write('<div class="text"><strong>Инструменты Lean:</strong> ' + d.skills.lean.join(', ') + '</div>');
+        doc.write('<div class="text" style="margin-top: 5px;"><strong>Программное обеспечение:</strong> ' + d.skills.software.join(', ') + '</div>');
+        doc.write('<div class="text" style="margin-top: 5px;"><strong>Личные качества:</strong> ' + d.skills.personal.join(', ') + '</div>');
+        doc.write('<div class="footer">Национальный проект «Производительность труда» — РЦК Санкт-Петербурга<br>Дата: ' + new Date().toLocaleDateString('ru-RU') + '</div>');
         doc.write('</body></html>');
         doc.close();
 
-        setTimeout(function() {
-            // Рендерим iframe через html2canvas
-            html2canvas(iframe.contentDocument.body, {
-                scale: 2,
-                useCORS: true,
-                letterRendering: true,
-                logging: false,
-                backgroundColor: '#ffffff',
-                width: iframe.contentDocument.body.scrollWidth,
-                height: iframe.contentDocument.body.scrollHeight
-            }).then(function(canvas) {
-                document.body.removeChild(iframe);
+        // Ждём полной загрузки контента в iframe
+        iframe.onload = function() {
+            setTimeout(function() {
+                try {
+                    html2canvas(iframe.contentDocument.body, {
+                        scale: 2,
+                        useCORS: true,
+                        logging: false,
+                        backgroundColor: '#ffffff'
+                    }).then(function(canvas) {
+                        document.body.removeChild(iframe);
 
-                var { jsPDF } = window.jspdf;
-                var pdf = new jsPDF('p', 'mm', 'a4');
-                var pw = pdf.internal.pageSize.getWidth(); // 210
-                var ph = pdf.internal.pageSize.getHeight(); // 297
+                        var JsPDF = window.jspdf.jsPDF;
+                        var pdf = new JsPDF('p', 'mm', 'a4');
+                        var pw = pdf.internal.pageSize.getWidth();
+                        var ph = pdf.internal.pageSize.getHeight();
 
-                var imgData = canvas.toDataURL('image/jpeg', 0.95);
-                var imgW = pw; // масштабируем canvas под ширину PDF
-                var imgH = (canvas.height / canvas.width) * pw;
-                var pagesNeeded = Math.ceil(imgH / ph);
+                        var imgData = canvas.toDataURL('image/jpeg', 0.95);
+                        var imgW = pw;
+                        var imgH = (canvas.height / canvas.width) * pw;
+                        var pagesNeeded = Math.ceil(imgH / ph);
 
-                for (var i = 0; i < pagesNeeded; i++) {
-                    if (i > 0) pdf.addPage();
-                    var offsetY = -i * ph; // смещение вверх на высоту страницы
-                    pdf.addImage(imgData, 'JPEG', 0, offsetY, imgW, imgH);
+                        for (var i = 0; i < pagesNeeded; i++) {
+                            if (i > 0) pdf.addPage();
+                            var offsetY = -i * ph;
+                            pdf.addImage(imgData, 'JPEG', 0, offsetY, imgW, imgH);
+                        }
+
+                        pdf.save('Portfolio_Slinkov_Aleksandr.pdf');
+                        if (pdfBtn) { pdfBtn.textContent = 'Скачать портфолио (PDF)'; pdfBtn.style.opacity = '1'; pdfBtn.style.pointerEvents = 'auto'; }
+                    }).catch(function(err) {
+                        document.body.removeChild(iframe);
+                        if (pdfBtn) { pdfBtn.textContent = 'Скачать портфолио (PDF)'; pdfBtn.style.opacity = '1'; pdfBtn.style.pointerEvents = 'auto'; }
+                        alert('Ошибка генерации PDF: ' + err.message);
+                        console.error(err);
+                    });
+                } catch (e) {
+                    document.body.removeChild(iframe);
+                    if (pdfBtn) { pdfBtn.textContent = 'Скачать портфолио (PDF)'; pdfBtn.style.opacity = '1'; pdfBtn.style.pointerEvents = 'auto'; }
+                    alert('Ошибка генерации PDF: ' + e.message);
+                    console.error(e);
                 }
-
-                pdf.save('Portfolio_Slinkov_Aleksandr.pdf');
-                if (pdfBtn) { pdfBtn.textContent = 'Скачать портфолио (PDF)'; pdfBtn.style.opacity = '1'; pdfBtn.style.pointerEvents = 'auto'; }
-            }).catch(function(err) {
-                document.body.removeChild(iframe);
-                if (pdfBtn) { pdfBtn.textContent = 'Скачать портфолио (PDF)'; pdfBtn.style.opacity = '1'; pdfBtn.style.pointerEvents = 'auto'; }
-                alert('Ошибка генерации PDF.');
-                console.error(err);
-            });
-        }, 2000);
+            }, 1500);
+        };
     }
 
     var pdfBtn = document.getElementById('downloadPdfBtn');
