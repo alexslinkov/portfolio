@@ -122,7 +122,7 @@ const siteData = {
     // ===== КОНТАКТЫ =====
     contact: {
         email: 'alexslinkov@mail.ru',
-        phone: '+7 (999) 999-99-99',
+        phone: '+7 (931) 240-98-50',
         telegram: '@sir_SAlexS'
     },
 
