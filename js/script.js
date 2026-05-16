@@ -71,9 +71,9 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
 
-        const projectsGrid = document.getElementById('projectsGrid');
-        if (projectsGrid && d.projects) {
-            projectsGrid.innerHTML = '';
+        const track = document.getElementById('projectsTrack');
+        if (track && d.projects) {
+            track.innerHTML = '';
             d.projects.forEach(function(project) {
                 let resultsHtml = '';
                 project.results.forEach(function(r) {
@@ -105,8 +105,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     <div class="project-results">${resultsHtml}</div>
                     ${caseBtn}
                 `;
-                projectsGrid.appendChild(card);
+                track.appendChild(card);
             });
+
+            // ===== ЛОГИКА КАРУСЕЛИ =====
+            initCarousel(track, d.projects.length);
         }
 
         function renderSkills(containerId, skillsArray) {
@@ -209,6 +212,56 @@ document.addEventListener('DOMContentLoaded', function() {
             pdfBtn.style.pointerEvents = 'none';
             generatePDF();
         });
+    }
+
+    function initCarousel(track, totalCards) {
+        const prevBtn = document.getElementById('carouselPrev');
+        const nextBtn = document.getElementById('carouselNext');
+        let currentIndex = 0;
+        // Количество видимых карточек (3 на десктопе, 2 на планшете, 1 на мобильном)
+        function getVisibleCount() {
+            if (window.innerWidth <= 768) return 1;
+            if (window.innerWidth <= 992) return 2;
+            return 3;
+        }
+        const maxIndex = Math.max(0, totalCards - getVisibleCount());
+
+        function updateCarousel() {
+            const cardWidth = track.children[0] ? track.children[0].offsetWidth : 320;
+            const gap = 28;
+            const offset = -currentIndex * (cardWidth + gap);
+            track.style.transform = 'translateX(' + offset + 'px)';
+
+            if (prevBtn) prevBtn.disabled = currentIndex === 0;
+            if (nextBtn) nextBtn.disabled = currentIndex >= maxIndex;
+        }
+
+        if (prevBtn) {
+            prevBtn.addEventListener('click', function() {
+                if (currentIndex > 0) {
+                    currentIndex--;
+                    updateCarousel();
+                }
+            });
+        }
+
+        if (nextBtn) {
+            nextBtn.addEventListener('click', function() {
+                if (currentIndex < maxIndex) {
+                    currentIndex++;
+                    updateCarousel();
+                }
+            });
+        }
+
+        // Пересчёт при ресайзе
+        window.addEventListener('resize', function() {
+            const newMax = Math.max(0, totalCards - getVisibleCount());
+            if (currentIndex > newMax) currentIndex = newMax;
+            updateCarousel();
+        });
+
+        updateCarousel();
     }
 
     renderData();

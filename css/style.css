@@ -776,13 +776,29 @@ img {
     background: var(--white);
 }
 
-.projects-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+/* ===== PROJECTS CAROUSEL ===== */
+.projects-carousel {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    position: relative;
+}
+
+.projects-carousel-viewport {
+    overflow: hidden;
+    flex: 1;
+    border-radius: var(--radius-lg);
+}
+
+.projects-carousel-track {
+    display: flex;
     gap: 28px;
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .project-card {
+    flex: 0 0 calc((100% - 56px) / 3);
+    min-width: 320px;
     background: var(--gray-50);
     border-radius: var(--radius-lg);
     padding: 32px;
@@ -796,6 +812,36 @@ img {
     transform: translateY(-4px);
     box-shadow: var(--shadow-lg);
     border-color: var(--primary);
+}
+
+.carousel-btn {
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--white);
+    border: 2px solid var(--gray-200);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: var(--transition);
+    color: var(--content-secondary);
+    font-size: 1rem;
+    z-index: 1;
+}
+
+.carousel-btn:hover {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: var(--white);
+    box-shadow: 0 4px 16px rgba(54, 95, 240, 0.3);
+}
+
+.carousel-btn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+    pointer-events: none;
 }
 
 .project-header {
@@ -1271,8 +1317,14 @@ img {
         font-size: 1.6rem;
     }
 
-    .projects-grid {
-        grid-template-columns: 1fr;
+    .project-card {
+        flex: 0 0 calc(100% - 28px);
+        min-width: 280px;
+    }
+
+    .carousel-btn {
+        width: 40px;
+        height: 40px;
     }
 
     .project-results {
@@ -1327,8 +1379,19 @@ img {
         font-size: 0.85rem;
     }
 
+    .project-card {
+        flex: 0 0 100%;
+        min-width: 260px;
+    }
+
     .project-results {
         grid-template-columns: 1fr;
+    }
+
+    .carousel-btn {
+        width: 36px;
+        height: 36px;
+        font-size: 0.85rem;
     }
 }
 
@@ -1640,6 +1703,31 @@ img {
     .cta-card {
         background: #EEF5FF !important;
         text-align: left;
+    }
+
+    .carousel-btn,
+    .project-case-btn {
+        display: none !important;
+    }
+
+    .projects-carousel {
+        display: block;
+    }
+
+    .projects-carousel-viewport {
+        overflow: visible;
+    }
+
+    .projects-carousel-track {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+        transform: none !important;
+    }
+
+    .project-card {
+        flex: auto;
+        min-width: 0;
     }
 
     .cta-card .btn {
