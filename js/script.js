@@ -217,18 +217,33 @@ document.addEventListener('DOMContentLoaded', function() {
     function initCarousel(track, totalCards) {
         const prevBtn = document.getElementById('carouselPrev');
         const nextBtn = document.getElementById('carouselNext');
+        const viewport = document.querySelector('.projects-carousel-viewport');
         let currentIndex = 0;
-        // Количество видимых карточек (3 на десктопе, 2 на планшете, 1 на мобильном)
+
         function getVisibleCount() {
             if (window.innerWidth <= 768) return 1;
             if (window.innerWidth <= 992) return 2;
             return 3;
         }
-        const maxIndex = Math.max(0, totalCards - getVisibleCount());
 
         function updateCarousel() {
-            const cardWidth = track.children[0] ? track.children[0].offsetWidth : 320;
+            if (!track.children.length) return;
+            const viewportWidth = viewport ? viewport.clientWidth : track.parentElement.clientWidth;
+            const visibleCount = getVisibleCount();
             const gap = 28;
+            // Вычисляем ширину одной карточки так, чтобы visibleCount карточек + зазоры заполнили viewport
+            const totalGap = gap * (visibleCount - 1);
+            const cardWidth = (viewportWidth - totalGap) / visibleCount;
+
+            // Устанавливаем ширину всем карточкам
+            Array.from(track.children).forEach(function(card) {
+                card.style.flex = '0 0 ' + cardWidth + 'px';
+                card.style.minWidth = cardWidth + 'px';
+            });
+
+            const maxIndex = Math.max(0, totalCards - visibleCount);
+            if (currentIndex > maxIndex) currentIndex = maxIndex;
+
             const offset = -currentIndex * (cardWidth + gap);
             track.style.transform = 'translateX(' + offset + 'px)';
 
@@ -247,6 +262,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
         if (nextBtn) {
             nextBtn.addEventListener('click', function() {
+                const visibleCount = getVisibleCount();
+                const maxIndex = Math.max(0, totalCards - visibleCount);
                 if (currentIndex < maxIndex) {
                     currentIndex++;
                     updateCarousel();
@@ -254,13 +271,7 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
 
-        // Пересчёт при ресайзе
-        window.addEventListener('resize', function() {
-            const newMax = Math.max(0, totalCards - getVisibleCount());
-            if (currentIndex > newMax) currentIndex = newMax;
-            updateCarousel();
-        });
-
+        window.addEventListener('resize', updateCarousel);
         updateCarousel();
     }
 
