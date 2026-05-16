@@ -157,6 +157,58 @@
     color: #FDE68A;
 }
 
+/* Тёмная тема: Header */
+[data-theme="dark"] .header {
+    background: rgba(22, 32, 51, 0.92);
+    border-bottom-color: rgba(42, 56, 82, 0.6);
+}
+
+[data-theme="dark"] .header.scrolled {
+    border-bottom-color: rgba(54, 95, 240, 0.2);
+}
+
+[data-theme="dark"] .burger span {
+    background: #E8ECF4;
+}
+
+/* Тёмная тема: Hero */
+[data-theme="dark"] .hero {
+    background: linear-gradient(165deg, #0B1120 0%, #131D30 40%, #162033 80%);
+}
+
+[data-theme="dark"] .hero-desc strong {
+    color: #E8ECF4;
+}
+
+[data-theme="dark"] .hero-badge {
+    background: #1E2A40;
+    color: #B0C0D8;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Тёмная тема: Footer */
+[data-theme="dark"] .footer {
+    background: #060B18;
+}
+
+[data-theme="dark"] .footer-brand {
+    color: #ffffff;
+}
+
+[data-theme="dark"] .footer-links a {
+    color: #9BADCA;
+}
+
+[data-theme="dark"] .footer-links a:hover {
+    color: #ffffff;
+}
+
+/* Тёмная тема: CTA card */
+[data-theme="dark"] .cta-card {
+    background: linear-gradient(160deg, #1A2245, #162033);
+    border-color: #2A3852;
+}
+
 html {
     scroll-behavior: smooth;
     scroll-padding-top: 80px;
