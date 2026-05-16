@@ -788,6 +788,8 @@ img {
     padding: 32px;
     border: 1px solid var(--gray-200);
     transition: var(--transition);
+    display: flex;
+    flex-direction: column;
 }
 
 .project-card:hover {
@@ -840,9 +842,11 @@ img {
     color: var(--content-secondary);
     line-height: 1.7;
     margin-bottom: 20px;
+    flex: 1;
 }
 
 .project-results {
+    margin-top: auto;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 10px;
@@ -1437,4 +1441,217 @@ img {
 .photo-frame:hover {
     transform: scale(1.02);
     box-shadow: 0 28px 56px rgba(8, 13, 65, 0.18);
+}
+
+/* ===== PRINT / PDF ===== */
+@media print {
+    @page {
+        size: A4;
+        margin: 12mm;
+    }
+
+    .header,
+    .burger,
+    .theme-toggle,
+    .hero-btns,
+    .hero-shapes,
+    .contact-cta,
+    .footer-links,
+    .scroll-progress,
+    #downloadPdfBtn {
+        display: none !important;
+    }
+
+    body {
+        background: #ffffff !important;
+        color: #111822 !important;
+        font-size: 11px;
+        line-height: 1.5;
+    }
+
+    [data-theme="dark"] body,
+    [data-theme="dark"] {
+        background: #ffffff !important;
+        color: #111822 !important;
+    }
+
+    .hero {
+        min-height: auto;
+        padding: 0 0 20px 0;
+        background: #ffffff !important;
+    }
+
+    .hero-content {
+        grid-template-columns: 1fr 1fr;
+        gap: 24px;
+    }
+
+    .hero-name {
+        font-size: 1.6rem;
+        color: #080D41 !important;
+    }
+
+    .hero-role {
+        font-size: 1rem;
+        color: #34445C !important;
+    }
+
+    .hero-desc,
+    .hero-desc strong {
+        color: #34445C !important;
+    }
+
+    .hero-stat-value {
+        font-size: 1.2rem;
+        color: #365FF0 !important;
+    }
+
+    .hero-stat-label {
+        color: #9BADCA !important;
+    }
+
+    .hero-badge {
+        background: #F8FAFE !important;
+        color: #34445C !important;
+        box-shadow: none !important;
+        border: 1px solid #e5e7eb;
+    }
+
+    .photo-frame {
+        width: 160px;
+        height: 190px;
+        box-shadow: none !important;
+        border: 2px solid #e5e7eb;
+    }
+
+    .section {
+        padding: 16px 0;
+        background: #ffffff !important;
+        break-inside: avoid;
+    }
+
+    .section-header {
+        margin-bottom: 20px;
+    }
+
+    .section-title {
+        font-size: 1.3rem;
+        color: #080D41 !important;
+    }
+
+    .section-tag {
+        background: #EEF5FF !important;
+        color: #365FF0 !important;
+    }
+
+    .about-card,
+    .project-card,
+    .contact-item,
+    .cta-card,
+    .skill-tag {
+        background: #F8FAFE !important;
+        color: #111822 !important;
+        border: 1px solid #e5e7eb !important;
+        box-shadow: none !important;
+        break-inside: avoid;
+    }
+
+    .about-icon,
+    .project-icon,
+    .contact-icon,
+    .logo-icon,
+    .footer-logo {
+        background: #365FF0 !important;
+        color: #ffffff !important;
+    }
+
+    .about-card h3,
+    .project-title,
+    .skills-category h3,
+    .timeline-title,
+    .contact-item a,
+    .cta-card h3 {
+        color: #080D41 !important;
+    }
+
+    .about-card p,
+    .project-desc,
+    .timeline-desc,
+    .timeline-company,
+    .contact-item h4,
+    .cta-card p {
+        color: #34445C !important;
+    }
+
+    .project-result-value {
+        color: #365FF0 !important;
+    }
+
+    .project-result-label {
+        color: #9BADCA !important;
+    }
+
+    .project-result-item {
+        background: #ffffff !important;
+        border: 1px solid #e5e7eb !important;
+    }
+
+    .timeline::before {
+        background: #365FF0 !important;
+    }
+
+    .timeline-dot {
+        background: #ffffff !important;
+        border-color: #365FF0 !important;
+    }
+
+    .timeline-item:last-child .timeline-dot {
+        border-color: #33A661 !important;
+    }
+
+    .timeline-date {
+        color: #365FF0 !important;
+    }
+
+    .cta-card {
+        background: #EEF5FF !important;
+        text-align: left;
+    }
+
+    .cta-card .btn {
+        display: none;
+    }
+
+    .contact-content {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .footer {
+        background: #ffffff !important;
+        color: #34445C !important;
+        padding: 16px 0;
+        border-top: 1px solid #e5e7eb;
+    }
+
+    .footer-brand {
+        color: #080D41 !important;
+    }
+
+    .footer-bottom {
+        color: #34445C !important;
+    }
+
+    .footer-np {
+        color: #33A661 !important;
+    }
+
+    .footer-rck a {
+        color: #365FF0 !important;
+    }
+
+    * {
+        animation: none !important;
+        transition: none !important;
+    }
 }
