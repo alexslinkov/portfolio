@@ -59,6 +59,104 @@
     --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* ===== ТЁМНАЯ ТЕМА ===== */
+[data-theme="dark"] {
+    --primary: #5A7DF5;
+    --primary-dark: #365FF0;
+    --primary-light: #8099F8;
+    --primary-bg: #1A2245;
+
+    --dark-primary: #E8ECF4;
+    --dark-secondary: #9BADCA;
+    --content-primary: #E8ECF4;
+    --content-secondary: #B0C0D8;
+    --supporting: #6B7FA0;
+
+    --gray-900: #E8ECF4;
+    --gray-800: #C8D4E6;
+    --gray-700: #B0C0D8;
+    --gray-600: #8A9FBF;
+    --gray-500: #6B7FA0;
+    --gray-400: #546888;
+    --gray-300: #3A4A66;
+    --gray-200: #2A3852;
+    --gray-100: #1E2A40;
+    --gray-50: #131D30;
+    --white: #162033;
+
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.35);
+    --shadow-lg: 0 10px 24px rgba(0, 0, 0, 0.4);
+    --shadow-xl: 0 20px 40px rgba(0, 0, 0, 0.5);
+}
+
+/* Переключатель темы */
+.theme-toggle {
+    position: relative;
+    width: 52px;
+    height: 28px;
+    background: var(--gray-200);
+    border-radius: 28px;
+    border: none;
+    cursor: pointer;
+    transition: var(--transition);
+    margin-left: 12px;
+    flex-shrink: 0;
+}
+
+.theme-toggle::after {
+    content: '';
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 22px;
+    height: 22px;
+    background: var(--white);
+    border-radius: 50%;
+    transition: var(--transition);
+    box-shadow: var(--shadow-sm);
+}
+
+[data-theme="dark"] .theme-toggle {
+    background: var(--primary);
+}
+
+[data-theme="dark"] .theme-toggle::after {
+    left: 27px;
+    background: var(--white);
+}
+
+.theme-toggle-icon {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.75rem;
+    pointer-events: none;
+    z-index: 1;
+    transition: var(--transition);
+}
+
+.theme-toggle-icon.sun {
+    left: 6px;
+    color: #F59E0B;
+    opacity: 1;
+}
+
+.theme-toggle-icon.moon {
+    right: 6px;
+    color: #6B7280;
+    opacity: 0.5;
+}
+
+[data-theme="dark"] .theme-toggle-icon.sun {
+    opacity: 0.5;
+}
+
+[data-theme="dark"] .theme-toggle-icon.moon {
+    opacity: 1;
+    color: #FDE68A;
+}
+
 html {
     scroll-behavior: smooth;
     scroll-padding-top: 80px;
@@ -1151,6 +1249,18 @@ img {
     }
 }
 
+/* ===== SCROLL PROGRESS BAR ===== */
+.scroll-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--primary), var(--accent));
+    z-index: 1001;
+    transition: width 0.1s linear;
+    border-radius: 0 3px 3px 0;
+}
+
 /* ===== ANIMATIONS ===== */
 @keyframes fadeInUp {
     from {
@@ -1163,8 +1273,74 @@ img {
     }
 }
 
+@keyframes fadeInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes fadeInRight {
+    from {
+        opacity: 0;
+        transform: translateX(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes floatUpDown {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
+}
+
 .animate-in {
     animation: fadeInUp 0.5s ease forwards;
+}
+
+/* Герой-анимации */
+.hero-text {
+    animation: fadeInLeft 0.7s ease forwards;
+}
+
+.hero-photo {
+    animation: fadeInRight 0.7s ease forwards;
+}
+
+.hero-shape-1 {
+    animation: floatUpDown 8s ease-in-out infinite;
+}
+
+.hero-shape-2 {
+    animation: floatUpDown 6s ease-in-out infinite reverse;
+}
+
+.hero-shape-3 {
+    animation: floatUpDown 10s ease-in-out infinite;
+}
+
+/* Параллакс для hero-shapes при скролле */
+@media (prefers-reduced-motion: no-preference) {
+    .hero-shape {
+        will-change: transform;
+    }
 }
 
 /* Краткая задержка для каскадной анимации */
@@ -1186,4 +1362,24 @@ img {
 .about-card:nth-child(4),
 .project-card:nth-child(4) {
     animation-delay: 0.2s;
+}
+
+/* Анимация при наведении на hero-stat */
+.hero-stat {
+    transition: var(--transition);
+}
+.hero-stat:hover {
+    transform: translateY(-4px);
+}
+.hero-stat:hover .hero-stat-value {
+    transform: scale(1.1);
+}
+
+/* Анимация для photo-frame */
+.photo-frame {
+    animation: scaleIn 0.8s ease forwards;
+}
+.photo-frame:hover {
+    transform: scale(1.02);
+    box-shadow: 0 28px 56px rgba(8, 13, 65, 0.18);
 }
