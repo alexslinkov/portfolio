@@ -87,6 +87,12 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                 });
 
+                const caseBtn = project.caseFile
+                    ? `<a href="${project.caseFile}" download class="project-case-btn" title="Скачать презентацию проекта">
+                        <i class="fas fa-file-powerpoint"></i> Скачать кейс
+                    </a>`
+                    : '';
+
                 const card = document.createElement('div');
                 card.className = 'project-card';
                 card.innerHTML = `
@@ -97,6 +103,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     <h3 class="project-title">${project.title}</h3>
                     <p class="project-desc">${project.description}</p>
                     <div class="project-results">${resultsHtml}</div>
+                    ${caseBtn}
                 `;
                 projectsGrid.appendChild(card);
             });
