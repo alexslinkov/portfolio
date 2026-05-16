@@ -788,11 +788,13 @@ img {
     overflow: hidden;
     flex: 1;
     border-radius: var(--radius-lg);
+    padding: 0 4px;
 }
 
 .projects-carousel-track {
     display: flex;
     gap: 28px;
+    padding-right: 28px;
     transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -1123,6 +1125,15 @@ img {
 .cta-card .btn {
     width: 100%;
     justify-content: center;
+    padding: 12px 24px;
+    font-size: 0.85rem;
+}
+
+.cta-card .btn i {
+    font-size: 1rem;
+    width: 20px;
+    text-align: center;
+    flex-shrink: 0;
 }
 
 /* ===== FOOTER ===== */
