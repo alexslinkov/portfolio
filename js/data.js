@@ -46,6 +46,7 @@ const siteData = {
     projects: {
         lean: [
             {
+                id: 'lean-1',
                 company: 'ООО «Метэк-Инжиниринг»',
                 icon: 'fa-industry',
                 title: 'Оптимизация производственного потока',
@@ -59,6 +60,7 @@ const siteData = {
                 ]
             },
             {
+                id: 'lean-2',
                 company: 'ООО «Красный дельфин»',
                 icon: 'fa-boxes',
                 title: 'Внедрение системы 5S на производстве',
@@ -72,6 +74,7 @@ const siteData = {
                 ]
             },
             {
+                id: 'lean-3',
                 company: 'ООО «ДизайнИнвест»',
                 icon: 'fa-truck',
                 title: 'Оптимизация логистики склада',
@@ -85,6 +88,7 @@ const siteData = {
                 ]
             },
             {
+                id: 'lean-4',
                 company: 'ООО «БетоНИКА»',
                 icon: 'fa-hard-hat',
                 title: 'Оптимизация процессов производства ЖБИ',
@@ -98,6 +102,7 @@ const siteData = {
                 ]
             },
             {
+                id: 'lean-5',
                 company: 'ООО «БФА-Монолит»',
                 icon: 'fa-building',
                 title: 'Повышение эффективности производственных процессов',
@@ -111,6 +116,7 @@ const siteData = {
                 ]
             },
             {
+                id: 'lean-6',
                 company: 'АО «ЗАВОД РЕКОНД»',
                 icon: 'fa-microchip',
                 title: 'Оптимизация сборочного производства',
@@ -124,6 +130,7 @@ const siteData = {
                 ]
             },
             {
+                id: 'lean-7',
                 company: 'АО «ЦНИИ Электрон»',
                 icon: 'fa-flask',
                 title: 'Оптимизация НИОКР-процессов',
@@ -137,6 +144,7 @@ const siteData = {
                 ]
             },
             {
+                id: 'lean-8',
                 company: 'ООО «АБВ Акцент»',
                 icon: 'fa-tshirt',
                 title: 'Оптимизация швейного производства',
@@ -150,6 +158,7 @@ const siteData = {
                 ]
             },
             {
+                id: 'lean-9',
                 company: 'ООО «БФА-СТРОЙ»',
                 icon: 'fa-hammer',
                 title: 'Оптимизация строительного производства',
@@ -163,6 +172,7 @@ const siteData = {
                 ]
             },
             {
+                id: 'lean-10',
                 company: 'АО «ОДК-КЛИМОВ»',
                 icon: 'fa-cogs',
                 title: 'Повышение эффективности механообработки',
@@ -176,6 +186,7 @@ const siteData = {
                 ]
             },
             {
+                id: 'lean-11',
                 company: 'ООО «Петерформ»',
                 icon: 'fa-print',
                 title: 'Оптимизация полиграфического производства',
@@ -191,6 +202,7 @@ const siteData = {
         ],
         engineering: [
             {
+                id: 'eng-1',
                 company: 'Проектирование подъёмного устройства',
                 icon: 'fa-arrows-up-down',
                 title: 'Подъёмное устройство для магнитного вала',
@@ -203,6 +215,7 @@ const siteData = {
                 ]
             },
             {
+                id: 'eng-2',
                 company: 'Технологическая оснастка',
                 icon: 'fa-ruler-combined',
                 title: 'Оснастка с разметкой для контроля толщины',
@@ -215,6 +228,7 @@ const siteData = {
                 ]
             },
             {
+                id: 'eng-3',
                 company: 'Специальный профиль',
                 icon: 'fa-window-maximize',
                 title: 'Профиль для фиксации оконных проёмов',
@@ -229,6 +243,7 @@ const siteData = {
         ],
         it: [
             {
+                id: 'it-1',
                 company: 'Веб-приложение',
                 icon: 'fa-calendar-alt',
                 title: 'Публичный календарь событий с админ-панелью',
@@ -248,6 +263,7 @@ const siteData = {
                 ]
             },
             {
+                id: 'it-2',
                 company: 'Telegram-бот',
                 icon: 'fa-robot',
                 title: 'AI-агент с голосовым управлением для Google Календаря',
@@ -266,6 +282,7 @@ const siteData = {
                 ]
             },
             {
+                id: 'it-3',
                 company: 'RAG-система',
                 icon: 'fa-brain',
                 title: 'Корпоративная RAG-система для методической базы',
@@ -282,6 +299,7 @@ const siteData = {
                 ]
             },
             {
+                id: 'it-4',
                 company: 'Сайт-портфолио',
                 icon: 'fa-globe',
                 title: 'Персональный сайт-портфолио',

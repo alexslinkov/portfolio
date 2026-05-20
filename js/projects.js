@@ -55,11 +55,11 @@
             });
         }
 
-        // Кнопка кейса
-        var caseBtn = '';
-        if (project.caseFile) {
-            caseBtn = '<a href="' + project.caseFile + '" class="project-case-btn project-case-btn--file" title="Открыть описание проекта">' +
-                '<i class="fas fa-file-alt"></i> Описание проекта' +
+        // Кнопка "Посмотреть подробнее"
+        var detailBtn = '';
+        if (project.id) {
+            detailBtn = '<a href="project.html?id=' + project.id + '" class="project-detail-btn">' +
+                '<i class="fas fa-info-circle"></i> Посмотреть подробнее' +
             '</a>';
         }
 
@@ -105,7 +105,7 @@
             imagesHtml +
             '<div class="project-results">' + resultsHtml + '</div>' +
             '<div class="project-actions">' +
-                caseBtn +
+                detailBtn +
                 linksHtml +
             '</div>';
 
