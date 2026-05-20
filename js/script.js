@@ -1,23 +1,23 @@
 /**
- * Script.js — логика отображения портфолио
+ * Script.js — основная логика портфолио
+ * Логика проектов вынесена в js/projects.js
  */
 
 document.addEventListener('DOMContentLoaded', function() {
     'use strict';
 
     // ===== ТЁМНАЯ ТЕМА =====
-    const themeToggle = document.getElementById('themeToggle');
-    const html = document.documentElement;
+    var themeToggle = document.getElementById('themeToggle');
+    var html = document.documentElement;
 
-    // Восстановление сохранённой темы
-    const savedTheme = localStorage.getItem('theme');
+    var savedTheme = localStorage.getItem('theme');
     if (savedTheme === 'dark') {
         html.setAttribute('data-theme', 'dark');
     }
 
     if (themeToggle) {
         themeToggle.addEventListener('click', function() {
-            const currentTheme = html.getAttribute('data-theme');
+            var currentTheme = html.getAttribute('data-theme');
             if (currentTheme === 'dark') {
                 html.removeAttribute('data-theme');
                 localStorage.setItem('theme', 'light');
@@ -29,30 +29,26 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // ===== СКРОЛЛ-ПРОГРЕСС-БАР =====
-    const progressBar = document.createElement('div');
+    var progressBar = document.createElement('div');
     progressBar.className = 'scroll-progress';
     document.body.appendChild(progressBar);
 
     window.addEventListener('scroll', function() {
-        const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
-        const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-        const progress = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
+        var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+        var scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        var progress = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
         progressBar.style.width = progress + '%';
     });
 
-    // ===== ПЕРЕМЕННЫЕ ДЛЯ ПРОЕКТОВ =====
-    let currentTab = 'lean';
-    let carouselIndex = 0;
-    let carouselTrack = null;
-    let carouselViewport = null;
-
+    // ===== РЕНДЕРИНГ ДАННЫХ =====
     function renderData() {
-        const d = siteData;
+        var d = siteData;
 
+        // Фото профиля
         if (d.personal.photo) {
-            const frame = document.getElementById('photoFrame');
+            var frame = document.getElementById('photoFrame');
             if (frame) {
-                const img = document.createElement('img');
+                var img = document.createElement('img');
                 img.src = d.personal.photo;
                 img.alt = d.personal.name;
                 frame.innerHTML = '';
@@ -60,38 +56,30 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
 
-        const timelineEl = document.getElementById('timeline');
+        // Таймлайн
+        var timelineEl = document.getElementById('timeline');
         if (timelineEl && d.timeline) {
             timelineEl.innerHTML = '';
             d.timeline.forEach(function(item) {
-                const div = document.createElement('div');
+                var div = document.createElement('div');
                 div.className = 'timeline-item';
-                div.innerHTML = `
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-date">${item.date}</div>
-                    <div class="timeline-title">${item.title}</div>
-                    <div class="timeline-company">${item.company}</div>
-                    <div class="timeline-desc">${item.description}</div>
-                `;
+                div.innerHTML =
+                    '<div class="timeline-dot"></div>' +
+                    '<div class="timeline-date">' + item.date + '</div>' +
+                    '<div class="timeline-title">' + item.title + '</div>' +
+                    '<div class="timeline-company">' + item.company + '</div>' +
+                    '<div class="timeline-desc">' + item.description + '</div>';
                 timelineEl.appendChild(div);
             });
         }
 
-        // Инициализация проектов
-        carouselTrack = document.getElementById('projectsTrack');
-        carouselViewport = document.querySelector('.projects-carousel-viewport');
-        
-        if (carouselTrack && d.projects) {
-            renderProjects(currentTab);
-            initTabs();
-        }
-
+        // Навыки
         function renderSkills(containerId, skillsArray) {
-            const container = document.getElementById(containerId);
+            var container = document.getElementById(containerId);
             if (!container || !skillsArray) return;
             container.innerHTML = '';
             skillsArray.forEach(function(skill) {
-                const span = document.createElement('span');
+                var span = document.createElement('span');
                 span.className = 'skill-tag';
                 span.textContent = skill;
                 container.appendChild(span);
@@ -104,10 +92,11 @@ document.addEventListener('DOMContentLoaded', function() {
             renderSkills('skillsPersonal', d.skills.personal);
         }
 
-        const c = d.contact;
-        const emailEl = document.getElementById('contactEmail');
-        const phoneEl = document.getElementById('contactPhone');
-        const telegramEl = document.getElementById('contactTelegram');
+        // Контакты
+        var c = d.contact;
+        var emailEl = document.getElementById('contactEmail');
+        var phoneEl = document.getElementById('contactPhone');
+        var telegramEl = document.getElementById('contactTelegram');
 
         if (emailEl) {
             emailEl.textContent = c.email;
@@ -118,156 +107,21 @@ document.addEventListener('DOMContentLoaded', function() {
             phoneEl.href = 'tel:' + c.phone.replace(/[^0-9+]/g, '');
         }
         if (telegramEl) {
-            const tgUsername = c.telegram.startsWith('@') ? c.telegram.slice(1) : c.telegram;
+            var tgUsername = c.telegram.startsWith('@') ? c.telegram.slice(1) : c.telegram;
             telegramEl.textContent = '@' + tgUsername;
             telegramEl.href = 'https://t.me/' + tgUsername;
         }
 
-        const yearEl = document.getElementById('year');
+        // Год в футере
+        var yearEl = document.getElementById('year');
         if (yearEl) {
             yearEl.textContent = new Date().getFullYear();
         }
     }
 
-    // ===== РЕНДЕРИНГ ПРОЕКТОВ ПО КАТЕГОРИЯМ =====
-    function renderProjects(category) {
-        if (!carouselTrack || !siteData.projects[category]) return;
-        
-        const projects = siteData.projects[category];
-        carouselTrack.innerHTML = '';
-        carouselIndex = 0;
-
-        projects.forEach(function(project) {
-            let resultsHtml = '';
-            if (project.results) {
-                project.results.forEach(function(r) {
-                    if (r.value && r.label) {
-                        resultsHtml += `
-                            <div class="project-result-item">
-                                <span class="project-result-value">${r.value}</span>
-                                <span class="project-result-label">${r.label}</span>
-                            </div>
-                        `;
-                    }
-                });
-            }
-
-            const caseBtn = project.caseFile
-                ? `<a href="${project.caseFile}" download class="project-case-btn" title="Скачать презентацию проекта">
-                    <i class="fas fa-file-powerpoint"></i> Скачать кейс
-                </a>`
-                : '';
-
-            const card = document.createElement('div');
-            card.className = 'project-card';
-            card.innerHTML = `
-                <div class="project-header">
-                    <span class="project-company">${project.company}</span>
-                    <div class="project-icon"><i class="fas ${project.icon}"></i></div>
-                </div>
-                <h3 class="project-title">${project.title}</h3>
-                <p class="project-desc">${project.description}</p>
-                <div class="project-results">${resultsHtml}</div>
-                ${caseBtn}
-            `;
-            carouselTrack.appendChild(card);
-        });
-
-        updateCarousel();
-    }
-
-    // ===== ЛОГИКА ТАБОВ =====
-    function initTabs() {
-        const tabs = document.querySelectorAll('.projects-tab');
-        tabs.forEach(function(tab) {
-            tab.addEventListener('click', function() {
-                const newTab = this.getAttribute('data-tab');
-                if (newTab === currentTab) return;
-
-                // Обновляем активный таб
-                tabs.forEach(function(t) {
-                    t.classList.remove('active');
-                });
-                this.classList.add('active');
-
-                // Переключаем категорию
-                currentTab = newTab;
-                renderProjects(currentTab);
-            });
-        });
-    }
-
-    // ===== ЛОГИКА КАРУСЕЛИ =====
-    function getVisibleCount() {
-        if (window.innerWidth <= 768) return 1;
-        if (window.innerWidth <= 992) return 2;
-        return 3;
-    }
-
-    function updateCarousel() {
-        if (!carouselTrack || !carouselTrack.children.length) return;
-        
-        const totalCards = carouselTrack.children.length;
-        const visibleCount = getVisibleCount();
-        const gap = 28;
-        
-        const viewportWidth = carouselViewport ? carouselViewport.clientWidth : 0;
-        const totalGap = gap * (visibleCount - 1);
-        const cardWidth = (viewportWidth - totalGap) / visibleCount;
-
-        // Устанавливаем ширину всем карточкам
-        Array.from(carouselTrack.children).forEach(function(card) {
-            card.style.flex = '0 0 ' + cardWidth + 'px';
-            card.style.minWidth = cardWidth + 'px';
-        });
-
-        const maxIndex = Math.max(0, totalCards - visibleCount);
-        if (carouselIndex > maxIndex) carouselIndex = maxIndex;
-
-        const offset = -carouselIndex * (cardWidth + gap);
-        carouselTrack.style.transform = 'translateX(' + offset + 'px)';
-
-        const prevBtn = document.getElementById('carouselPrev');
-        const nextBtn = document.getElementById('carouselNext');
-        
-        if (prevBtn) prevBtn.disabled = carouselIndex === 0;
-        if (nextBtn) nextBtn.disabled = carouselIndex >= maxIndex;
-    }
-
-    function initCarousel() {
-        const prevBtn = document.getElementById('carouselPrev');
-        const nextBtn = document.getElementById('carouselNext');
-
-        if (prevBtn) {
-            prevBtn.addEventListener('click', function() {
-                if (carouselIndex > 0) {
-                    carouselIndex--;
-                    updateCarousel();
-                }
-            });
-        }
-
-        if (nextBtn) {
-            nextBtn.addEventListener('click', function() {
-                if (!carouselTrack) return;
-                const totalCards = carouselTrack.children.length;
-                const visibleCount = getVisibleCount();
-                const maxIndex = Math.max(0, totalCards - visibleCount);
-                if (carouselIndex < maxIndex) {
-                    carouselIndex++;
-                    updateCarousel();
-                }
-            });
-        }
-
-        window.addEventListener('resize', function() {
-            updateCarousel();
-        });
-    }
-
     // ===== БУРГЕР-МЕНЮ =====
-    const burger = document.getElementById('burger');
-    const navList = document.getElementById('navList');
+    var burger = document.getElementById('burger');
+    var navList = document.getElementById('navList');
     if (burger && navList) {
         burger.addEventListener('click', function() {
             burger.classList.toggle('active');
@@ -282,7 +136,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // ===== СКРОЛЛ ДЛЯ ХЕДЕРА =====
-    const header = document.getElementById('header');
+    var header = document.getElementById('header');
     window.addEventListener('scroll', function() {
         if (!header) return;
         if (window.pageYOffset > 50) {
@@ -293,10 +147,10 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // ===== АНИМАЦИЯ ПРИ СКРОЛЛЕ =====
-    const animateElements = document.querySelectorAll(
+    var animateElements = document.querySelectorAll(
         '.about-card, .project-card, .timeline-item, .skill-tag, .contact-item'
     );
-    const observer = new IntersectionObserver(function(entries) {
+    var observer = new IntersectionObserver(function(entries) {
         entries.forEach(function(entry) {
             if (entry.isIntersecting) {
                 entry.target.classList.add('animate-in');
@@ -312,10 +166,10 @@ document.addEventListener('DOMContentLoaded', function() {
     function generatePDF() {
         var pdfBtn = document.getElementById('downloadPdfBtn');
         window.print();
-        if (pdfBtn) { 
-            pdfBtn.textContent = 'Скачать портфолио (PDF)'; 
-            pdfBtn.style.opacity = '1'; 
-            pdfBtn.style.pointerEvents = 'auto'; 
+        if (pdfBtn) {
+            pdfBtn.textContent = 'Скачать портфолио (PDF)';
+            pdfBtn.style.opacity = '1';
+            pdfBtn.style.pointerEvents = 'auto';
         }
     }
 
@@ -331,6 +185,5 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // ===== ИНИЦИАЛИЗАЦИЯ =====
-    initCarousel();
     renderData();
 });

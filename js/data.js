@@ -229,10 +229,63 @@ const siteData = {
         ],
         it: [
             {
+                company: 'Веб-приложение',
+                icon: 'fa-calendar-alt',
+                title: 'Публичный календарь событий с админ-панелью',
+                description: 'Полноценное веб-приложение для публикации мероприятий. Администратор создаёт события с картинками через админку, пользователи видят календарь с возможностью скачать событие в .ics и поделиться ссылкой. Работает на localStorage без бэкенда, задеплоен на Vercel.',
+                caseFile: 'cases/IT/public-calendar/public-calendar.md',
+                caseImages: [
+                    { src: 'cases/IT/public-calendar/календарь.png', alt: 'Публичный календарь' },
+                    { src: 'cases/IT/public-calendar/админ-панель.png', alt: 'Админ-панель' }
+                ],
+                demoUrl: 'https://public-calendar.vercel.app',
+                githubUrl: 'https://github.com/alexslinkov/public-calendar',
+                results: [
+                    { value: 'HTML/CSS/JS', label: 'Технологии' },
+                    { value: 'localStorage', label: 'Хранение данных' },
+                    { value: 'Vercel', label: 'Деплой' },
+                    { value: '100%', label: 'Адаптивность' }
+                ]
+            },
+            {
+                company: 'Telegram-бот',
+                icon: 'fa-robot',
+                title: 'AI-агент с голосовым управлением для Google Календаря',
+                description: 'Автономный Telegram-бот с ИИ, работающий 24/7 на VPS. Понимает голосовые и текстовые команды, управляет Google Календарём и Google Tasks через естественный язык. Использует LLaMA 3.1 через Groq API.',
+                caseFile: 'cases/IT/bot-ai-calendar/bot-ai-calendar.md',
+                caseImages: [
+                    { src: 'cases/IT/bot-ai-calendar/bot.jpeg', alt: 'Telegram-бот' },
+                    { src: 'cases/IT/bot-ai-calendar/calendar.jpeg', alt: 'Google Календарь' }
+                ],
+                githubUrl: 'https://github.com/alexslinkov/my_ai_voice_agent',
+                results: [
+                    { value: 'Python', label: 'Язык' },
+                    { value: 'LLaMA 3.1', label: 'LLM модель' },
+                    { value: 'Google API', label: 'Интеграция' },
+                    { value: '24/7', label: 'Работа' }
+                ]
+            },
+            {
+                company: 'RAG-система',
+                icon: 'fa-brain',
+                title: 'Корпоративная RAG-система для методической базы',
+                description: 'Локальная RAG-система (Retrieval-Augmented Generation) для поиска по методическим материалам. Поддержка PDF, DOCX, TXT. Генерация ответов с точными ссылками на исходные документы. Полностью локальное развёртывание.',
+                caseFile: 'cases/IT/baza metodic/baza.md',
+                caseImages: [
+                    { src: 'cases/IT/baza metodic/User_interface.png', alt: 'Интерфейс системы' }
+                ],
+                results: [
+                    { value: 'Python', label: 'Язык' },
+                    { value: 'ChromaDB', label: 'Векторная БД' },
+                    { value: 'Ollama', label: 'LLM' },
+                    { value: 'Streamlit', label: 'UI' }
+                ]
+            },
+            {
                 company: 'Сайт-портфолио',
                 icon: 'fa-globe',
                 title: 'Персональный сайт-портфолио',
-                description: 'Создание адаптивного сайта-портфолио для демонстрации професональных достижений. Разработан с использованием современных веб-технологий и ИИ-инструментов.',
+                description: 'Создание адаптивного сайта-портфолио для демонстрации профессиональных достижений. Разработан с использованием современных веб-технологий и ИИ-инструментов.',
                 caseFile: '',
                 results: [
                     { value: 'HTML/CSS/JS', label: 'Технологии' },
