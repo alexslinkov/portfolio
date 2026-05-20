@@ -40,6 +40,12 @@ document.addEventListener('DOMContentLoaded', function() {
         progressBar.style.width = progress + '%';
     });
 
+    // ===== ПЕРЕМЕННЫЕ ДЛЯ ПРОЕКТОВ =====
+    let currentTab = 'lean';
+    let carouselIndex = 0;
+    let carouselTrack = null;
+    let carouselViewport = null;
+
     function renderData() {
         const d = siteData;
 
@@ -71,45 +77,13 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
 
-        const track = document.getElementById('projectsTrack');
-        if (track && d.projects) {
-            track.innerHTML = '';
-            d.projects.forEach(function(project) {
-                let resultsHtml = '';
-                project.results.forEach(function(r) {
-                    if (r.value && r.label) {
-                        resultsHtml += `
-                            <div class="project-result-item">
-                                <span class="project-result-value">${r.value}</span>
-                                <span class="project-result-label">${r.label}</span>
-                            </div>
-                        `;
-                    }
-                });
-
-                const caseBtn = project.caseFile
-                    ? `<a href="${project.caseFile}" download class="project-case-btn" title="Скачать презентацию проекта">
-                        <i class="fas fa-file-powerpoint"></i> Скачать кейс
-                    </a>`
-                    : '';
-
-                const card = document.createElement('div');
-                card.className = 'project-card';
-                card.innerHTML = `
-                    <div class="project-header">
-                        <span class="project-company">${project.company}</span>
-                        <div class="project-icon"><i class="fas ${project.icon}"></i></div>
-                    </div>
-                    <h3 class="project-title">${project.title}</h3>
-                    <p class="project-desc">${project.description}</p>
-                    <div class="project-results">${resultsHtml}</div>
-                    ${caseBtn}
-                `;
-                track.appendChild(card);
-            });
-
-            // ===== ЛОГИКА КАРУСЕЛИ =====
-            initCarousel(track, d.projects.length);
+        // Инициализация проектов
+        carouselTrack = document.getElementById('projectsTrack');
+        carouselViewport = document.querySelector('.projects-carousel-viewport');
+        
+        if (carouselTrack && d.projects) {
+            renderProjects(currentTab);
+            initTabs();
         }
 
         function renderSkills(containerId, skillsArray) {
@@ -155,6 +129,143 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    // ===== РЕНДЕРИНГ ПРОЕКТОВ ПО КАТЕГОРИЯМ =====
+    function renderProjects(category) {
+        if (!carouselTrack || !siteData.projects[category]) return;
+        
+        const projects = siteData.projects[category];
+        carouselTrack.innerHTML = '';
+        carouselIndex = 0;
+
+        projects.forEach(function(project) {
+            let resultsHtml = '';
+            if (project.results) {
+                project.results.forEach(function(r) {
+                    if (r.value && r.label) {
+                        resultsHtml += `
+                            <div class="project-result-item">
+                                <span class="project-result-value">${r.value}</span>
+                                <span class="project-result-label">${r.label}</span>
+                            </div>
+                        `;
+                    }
+                });
+            }
+
+            const caseBtn = project.caseFile
+                ? `<a href="${project.caseFile}" download class="project-case-btn" title="Скачать презентацию проекта">
+                    <i class="fas fa-file-powerpoint"></i> Скачать кейс
+                </a>`
+                : '';
+
+            const card = document.createElement('div');
+            card.className = 'project-card';
+            card.innerHTML = `
+                <div class="project-header">
+                    <span class="project-company">${project.company}</span>
+                    <div class="project-icon"><i class="fas ${project.icon}"></i></div>
+                </div>
+                <h3 class="project-title">${project.title}</h3>
+                <p class="project-desc">${project.description}</p>
+                <div class="project-results">${resultsHtml}</div>
+                ${caseBtn}
+            `;
+            carouselTrack.appendChild(card);
+        });
+
+        updateCarousel();
+    }
+
+    // ===== ЛОГИКА ТАБОВ =====
+    function initTabs() {
+        const tabs = document.querySelectorAll('.projects-tab');
+        tabs.forEach(function(tab) {
+            tab.addEventListener('click', function() {
+                const newTab = this.getAttribute('data-tab');
+                if (newTab === currentTab) return;
+
+                // Обновляем активный таб
+                tabs.forEach(function(t) {
+                    t.classList.remove('active');
+                });
+                this.classList.add('active');
+
+                // Переключаем категорию
+                currentTab = newTab;
+                renderProjects(currentTab);
+            });
+        });
+    }
+
+    // ===== ЛОГИКА КАРУСЕЛИ =====
+    function getVisibleCount() {
+        if (window.innerWidth <= 768) return 1;
+        if (window.innerWidth <= 992) return 2;
+        return 3;
+    }
+
+    function updateCarousel() {
+        if (!carouselTrack || !carouselTrack.children.length) return;
+        
+        const totalCards = carouselTrack.children.length;
+        const visibleCount = getVisibleCount();
+        const gap = 28;
+        
+        const viewportWidth = carouselViewport ? carouselViewport.clientWidth : 0;
+        const totalGap = gap * (visibleCount - 1);
+        const cardWidth = (viewportWidth - totalGap) / visibleCount;
+
+        // Устанавливаем ширину всем карточкам
+        Array.from(carouselTrack.children).forEach(function(card) {
+            card.style.flex = '0 0 ' + cardWidth + 'px';
+            card.style.minWidth = cardWidth + 'px';
+        });
+
+        const maxIndex = Math.max(0, totalCards - visibleCount);
+        if (carouselIndex > maxIndex) carouselIndex = maxIndex;
+
+        const offset = -carouselIndex * (cardWidth + gap);
+        carouselTrack.style.transform = 'translateX(' + offset + 'px)';
+
+        const prevBtn = document.getElementById('carouselPrev');
+        const nextBtn = document.getElementById('carouselNext');
+        
+        if (prevBtn) prevBtn.disabled = carouselIndex === 0;
+        if (nextBtn) nextBtn.disabled = carouselIndex >= maxIndex;
+    }
+
+    function initCarousel() {
+        const prevBtn = document.getElementById('carouselPrev');
+        const nextBtn = document.getElementById('carouselNext');
+
+        if (prevBtn) {
+            prevBtn.addEventListener('click', function() {
+                if (carouselIndex > 0) {
+                    carouselIndex--;
+                    updateCarousel();
+                }
+            });
+        }
+
+        if (nextBtn) {
+            nextBtn.addEventListener('click', function() {
+                if (!carouselTrack) return;
+                const totalCards = carouselTrack.children.length;
+                const visibleCount = getVisibleCount();
+                const maxIndex = Math.max(0, totalCards - visibleCount);
+                if (carouselIndex < maxIndex) {
+                    carouselIndex++;
+                    updateCarousel();
+                }
+            });
+        }
+
+        window.addEventListener('resize', function() {
+            updateCarousel();
+        });
+    }
+
+    // ===== БУРГЕР-МЕНЮ =====
     const burger = document.getElementById('burger');
     const navList = document.getElementById('navList');
     if (burger && navList) {
@@ -170,6 +281,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    // ===== СКРОЛЛ ДЛЯ ХЕДЕРА =====
     const header = document.getElementById('header');
     window.addEventListener('scroll', function() {
         if (!header) return;
@@ -180,6 +292,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
+    // ===== АНИМАЦИЯ ПРИ СКРОЛЛЕ =====
     const animateElements = document.querySelectorAll(
         '.about-card, .project-card, .timeline-item, .skill-tag, .contact-item'
     );
@@ -198,9 +311,12 @@ document.addEventListener('DOMContentLoaded', function() {
     // ===== СОХРАНЕНИЕ В PDF =====
     function generatePDF() {
         var pdfBtn = document.getElementById('downloadPdfBtn');
-        // Используем window.print() — браузер сам откроет диалог «Сохранить как PDF»
         window.print();
-        if (pdfBtn) { pdfBtn.textContent = 'Скачать портфолио (PDF)'; pdfBtn.style.opacity = '1'; pdfBtn.style.pointerEvents = 'auto'; }
+        if (pdfBtn) { 
+            pdfBtn.textContent = 'Скачать портфолио (PDF)'; 
+            pdfBtn.style.opacity = '1'; 
+            pdfBtn.style.pointerEvents = 'auto'; 
+        }
     }
 
     var pdfBtn = document.getElementById('downloadPdfBtn');
@@ -214,66 +330,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    function initCarousel(track, totalCards) {
-        const prevBtn = document.getElementById('carouselPrev');
-        const nextBtn = document.getElementById('carouselNext');
-        const viewport = document.querySelector('.projects-carousel-viewport');
-        let currentIndex = 0;
-
-        function getVisibleCount() {
-            if (window.innerWidth <= 768) return 1;
-            if (window.innerWidth <= 992) return 2;
-            return 3;
-        }
-
-        function updateCarousel() {
-            if (!track.children.length) return;
-            const viewportWidth = viewport ? viewport.clientWidth : track.parentElement.clientWidth;
-            const visibleCount = getVisibleCount();
-            const gap = 28;
-            // Вычисляем ширину одной карточки так, чтобы visibleCount карточек + зазоры заполнили viewport
-            const totalGap = gap * (visibleCount - 1);
-            const cardWidth = (viewportWidth - totalGap) / visibleCount;
-
-            // Устанавливаем ширину всем карточкам
-            Array.from(track.children).forEach(function(card) {
-                card.style.flex = '0 0 ' + cardWidth + 'px';
-                card.style.minWidth = cardWidth + 'px';
-            });
-
-            const maxIndex = Math.max(0, totalCards - visibleCount);
-            if (currentIndex > maxIndex) currentIndex = maxIndex;
-
-            const offset = -currentIndex * (cardWidth + gap);
-            track.style.transform = 'translateX(' + offset + 'px)';
-
-            if (prevBtn) prevBtn.disabled = currentIndex === 0;
-            if (nextBtn) nextBtn.disabled = currentIndex >= maxIndex;
-        }
-
-        if (prevBtn) {
-            prevBtn.addEventListener('click', function() {
-                if (currentIndex > 0) {
-                    currentIndex--;
-                    updateCarousel();
-                }
-            });
-        }
-
-        if (nextBtn) {
-            nextBtn.addEventListener('click', function() {
-                const visibleCount = getVisibleCount();
-                const maxIndex = Math.max(0, totalCards - visibleCount);
-                if (currentIndex < maxIndex) {
-                    currentIndex++;
-                    updateCarousel();
-                }
-            });
-        }
-
-        window.addEventListener('resize', updateCarousel);
-        updateCarousel();
-    }
-
+    // ===== ИНИЦИАЛИЗАЦИЯ =====
+    initCarousel();
     renderData();
 });
